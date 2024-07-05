@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
             room = await room.save();
 
             // get roomId 
-            const roomId = room._id;
+            const roomId = room._id.toString();
             console.log("Room created is : " + room);
 
             socket.join(roomId);
@@ -121,6 +121,41 @@ io.on('connection', (socket) => {
             }
         } catch (error) {
             console.log("error during joining the room" + error);
+        }
+
+
+    });
+
+    socket.on('tapGrid', async ({ index, roomId }) => {
+
+
+        try {
+            console.log("room id : ", roomId);
+            console.log("index   : ", index);
+
+
+            let room = await Room.findById(roomId);
+            // saving current player choice X or O
+            let choice = room.turn.playerType;
+
+            // change the turn
+            if (room.turnIndex == 0) {
+                room.turn = room.players[1];
+                room.turnIndex = 1;
+
+            }
+            else {
+                room.turn = room.players[0];
+                room.turnIndex = 0;
+            }
+            room = await room.save();
+            console.log("saved the room");
+
+            io.to(roomId).emit("tapped", { index, choice, room });
+
+        } catch (error) {
+            console.log(error);
+
         }
 
 

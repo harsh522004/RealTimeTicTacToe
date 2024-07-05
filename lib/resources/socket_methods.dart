@@ -66,4 +66,28 @@ class SocketMethods {
       ref.read(roomProvider.notifier).updatePlayer2(players[1]);
     });
   }
+
+  void tapGrid(int index, String roomId, List<String> elementList) {
+    print("index is (tap grid method) : ${index.toString()}");
+    print("roomId is (tap grid method) : $roomId");
+    print("element list in tap grid method : $elementList");
+
+    if (elementList[index] == "") {
+      print("element is empty so emit the tapgrid");
+      _socketClient.emit("tapGrid", {
+        'index': index,
+        'roomId': roomId,
+      });
+    }
+  }
+
+  void tappedListener(WidgetRef ref) {
+    _socketClient.on("tapped", (data) {
+      print("event : tapped");
+      ref
+          .read(roomProvider.notifier)
+          .updateElements(data['index'], data['choice']);
+      ref.read(roomProvider.notifier).updateRoomData(data['room']);
+    });
+  }
 }

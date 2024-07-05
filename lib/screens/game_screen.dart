@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socketex/provider/room_provider.dart';
 import 'package:socketex/resources/socket_methods.dart';
+import 'package:socketex/widgets/scoreboard.dart';
+import 'package:socketex/widgets/tictactoe_board.dart';
 import 'package:socketex/widgets/waiting_lobby.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
@@ -35,9 +37,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     return Scaffold(
       body: roomData['isJoin']
           ? WaitingLobby(id: roomData['_id'])
-          : Center(
-              child: Text(
-                roomData.toString(),
+          : const SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [Scoreboard(), TictactoeBoard()],
               ),
             ),
     );
