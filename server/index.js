@@ -1,12 +1,14 @@
+
 const express = require('express');
 const socketIo = require('socket.io');
 const http = require('http');
 const mongoose = require('mongoose');
+require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const Room = require("./models/room");
-const database = 'mongodb+srv://harshbutani125:LVieEHRKoS1P3j1F@cluster0.fktefhx.mongodb.net/game'
+const database = process.env.DATABASE_URL;
 
 
 
