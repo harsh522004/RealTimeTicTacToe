@@ -5,6 +5,7 @@ import 'package:socketex/resources/socket_methods.dart';
 import 'package:socketex/widgets/scoreboard.dart';
 import 'package:socketex/widgets/tictactoe_board.dart';
 import 'package:socketex/widgets/waiting_lobby.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   static String routeName = '/gameScreen';
@@ -31,11 +32,6 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     //final roomNotifier = ref.read(roomProvider.notifier);
     final roomData = ref.watch(roomProvider);
 
-    // print(roomNotifier.player1.nickname);
-    // print(roomNotifier.player2.nickname);
-
-    // isJoin true = wait
-    // false = no wait
     return Scaffold(
       body: roomData['isJoin']
           ? WaitingLobby(id: roomData['_id'])
@@ -44,13 +40,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Scoreboard(),
-                  const TictactoeBoard(),
+                  const Flexible(child: TictactoeBoard()),
                   Text(
                     "${roomData['turn']['nickname']}'s turn",
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 22),
                   )
                 ],
-              ),
+              ).pSymmetric(v: 40),
             ),
     );
   }

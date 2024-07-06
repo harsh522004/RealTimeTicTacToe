@@ -20,9 +20,12 @@ class Scoreboard extends ConsumerWidget {
           children: [
             Text(
               player1['nickname'],
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(player1['points'].toString()),
+            Text(
+              player1['points'].toString(),
+              style: const TextStyle(fontSize: 22),
+            ),
           ],
         ).p(30),
         Column(
@@ -30,9 +33,12 @@ class Scoreboard extends ConsumerWidget {
           children: [
             Text(
               player2['nickname'],
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(player2['points'].toString()),
+            Text(
+              player2['points'].toString(),
+              style: const TextStyle(fontSize: 22),
+            ),
           ],
         ).p(30),
       ],

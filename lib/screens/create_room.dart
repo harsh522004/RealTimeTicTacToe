@@ -33,23 +33,35 @@ class _CreateRoomState extends ConsumerState<CreateRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return Responsive(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: Responsive(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("create room"),
+            const Text(
+              "Create Your Arena",
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+            (context.screenHeight * 0.06).heightBox,
             TextFormField(
               controller: _nicknameController,
-              decoration:
-                  const InputDecoration(hintText: "Enter your nickname"),
-            ).p(20),
+              decoration: InputDecoration(
+                hintText: "Enter your nickname",
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Vx.hexToColor("686820")),
+                  borderRadius: BorderRadius.circular(5.5),
+                ),
+                enabledBorder: const OutlineInputBorder(),
+              ),
+            ),
+            (context.screenHeight * 0.06).heightBox,
             CustomButton(
               onTap: () => _socketMethods.createRoom(_nicknameController.text),
-              child: const Text("create room"),
+              child: const Text("Be the Host!"),
             ),
           ],
-        ),
+        ).p(40),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:socketex/comman/elevated_button.dart';
 import 'package:socketex/responsive/responsive.dart';
 import 'package:socketex/screens/create_room.dart';
 import 'package:socketex/screens/join_room.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class MainScreen extends StatelessWidget {
   static String routeName = '/mainScreen';
@@ -19,21 +20,23 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Responsive(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Welcome to the Game\nTIC TAC TOE  "),
-            CustomButton(
-              onTap: () => createRoomNavigate(context),
-              child: const Text("create room"),
-            ),
-            CustomButton(
-              onTap: () => joinRoomNavigate(context),
-              child: const Text("join room"),
-            )
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Tic Tac Toe: \nDon't Get Blocked!",
+            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          ),
+          20.heightBox,
+          CustomButton(
+            onTap: () => createRoomNavigate(context),
+            child: const Text("create room"),
+          ).p(20),
+          CustomButton(
+            onTap: () => joinRoomNavigate(context),
+            child: const Text("join room"),
+          )
+        ],
       ),
     );
   }
