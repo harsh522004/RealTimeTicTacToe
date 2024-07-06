@@ -22,6 +22,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     super.initState();
     _socketMethods.updateRoomListner(context, ref);
     _socketMethods.updatePlayersListener(context, ref);
+    _socketMethods.pointUpdateListener(ref);
+    _socketMethods.gameOverListener(context, ref);
   }
 
   @override

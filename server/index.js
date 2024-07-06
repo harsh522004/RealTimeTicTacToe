@@ -162,21 +162,32 @@ io.on('connection', (socket) => {
     });
 
     socket.on('winner', async ({ winnerSocketId, roomId }) => {
-        // current room
-        let room = await Room.findById(roomId);
-        // winner player
-        let player = room.players.find((player) => player.socketId == winnerSocketId);
 
-        player.points += 1;
-        room = await room.save();
 
-        if (player.points >= room.maxRound) {
-            // game over and this is winner
-            io.to(roomId).emit("gameOver", { player });
-        } else {
-            // game remaining and increase the point of this player
-            io.to(roomId).emit("pointUpdate", { player });
+        console.log("event : winner");
+        console.log("winner socketId : ", winnerSocketId.toString());
+        console.log("room Id : ", roomId);
+
+        try {
+            let room = await Room.findById(roomId);
+            let player = room.players.find(
+                (playerr) => playerr.socketId == winnerSocketId
+            );
+            player.points += 1;
+            room = await room.save();
+
+            if (player.points >= room.maxRound) {
+                io.to(roomId).emit("gameOver", player);
+            } else {
+                io.to(roomId).emit("pointUpdate", player);
+            }
+
+        } catch (error) {
+            console.log(error);
+
         }
+        // current room
+
     });
 });
 

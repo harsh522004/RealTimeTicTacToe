@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:socketex/comman/snack_bar.dart';
+import 'package:socketex/models/player.dart';
 import 'package:socketex/provider/board_elements.dart';
+import 'package:socketex/provider/player_provider.dart';
 import 'package:socketex/provider/room_provider.dart';
 
 class GameMethods {
   void winCheck(WidgetRef ref, BuildContext context, Socket client) {
     print("win check method called");
     final board = ref.read(boardProvider);
-    final room = ref.read(roomProvider.notifier);
+    final playerState = ref.watch(playerProvider);
+
+    final player1 = playerState['player1'];
+    final player2 = playerState['player2'];
+
+    print("player 1 in win check method : ${player1['nickname']}");
+    print("player 2 in win check method : ${player2['nickname']}");
+    // final player1 = Player.fromMap(playerState['player1']);
+    // final player2 = Player.fromMap(playerState['player2']);
     final roomData = ref.read(roomProvider);
     String winner = "";
 
@@ -52,24 +62,28 @@ class GameMethods {
 
     if (winner != "") {
       // check that is it player 1
-      if (room.player1.playerType == winner) {
+      if (player1['playerType'] == winner) {
         print("player 1 winner");
         // show player 1 won
-        myAlertBox(context, "${room.player1.nickname} won!!", ref);
+        myAlertBox(context, "${player1['nickname']} won!!", ref);
+
+        print("player 1 socketId : ${player1['socketId']}");
 
         // emit winner socketid, roomid
         client.emit("winner", {
-          "winnerSocketId": room.player1.socketId,
+          "winnerSocketId": player1['socketId'],
           "roomId": roomData['_id'],
         });
       } else {
-        print("player 1 winner");
+        print("player 2 winner");
         // show player 2 won
-        myAlertBox(context, "${room.player2.nickname} won!!", ref);
+        myAlertBox(context, "${player2['nickname']} won!!", ref);
+
+        print("player 2 socketId : ${player2['socketId']}");
 
         // emit winner socketid, roomid
         client.emit("winner", {
-          "winnerSocketId": room.player2.socketId,
+          "winnerSocketId": player2['socketId'],
           "roomId": roomData['_id'],
         });
       }

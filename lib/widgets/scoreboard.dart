@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:socketex/provider/room_provider.dart';
+import 'package:socketex/models/player.dart';
+import 'package:socketex/provider/player_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Scoreboard extends ConsumerWidget {
@@ -8,9 +9,9 @@ class Scoreboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final roomNotifier = ref.watch(roomProvider.notifier);
-    final player1 = roomNotifier.player1;
-    final player2 = roomNotifier.player2;
+    final playerState = ref.watch(playerProvider);
+    final player1 = playerState['player1'];
+    final player2 = playerState['player2'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -18,20 +19,20 @@ class Scoreboard extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              player1.nickname,
+              player1['nickname'],
               style: const TextStyle(fontSize: 20),
             ),
-            Text(player1.points.toInt().toString()),
+            Text(player1['points'].toString()),
           ],
         ).p(30),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              player2.nickname,
+              player2['nickname'],
               style: const TextStyle(fontSize: 20),
             ),
-            Text(player2.points.toInt().toString()),
+            Text(player2['points'].toString()),
           ],
         ).p(30),
       ],

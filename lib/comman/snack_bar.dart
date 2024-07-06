@@ -12,6 +12,7 @@ void mySnackBar(BuildContext context, String content) {
 
 void myAlertBox(BuildContext context, String content, WidgetRef ref) {
   showDialog(
+    
     barrierDismissible: false,
     context: context,
     builder: (context) {
