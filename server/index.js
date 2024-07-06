@@ -160,6 +160,24 @@ io.on('connection', (socket) => {
 
 
     });
+
+    socket.on('winner', async ({ winnerSocketId, roomId }) => {
+        // current room
+        let room = await Room.findById(roomId);
+        // winner player
+        let player = room.players.find((player) => player.socketId == winnerSocketId);
+
+        player.points += 1;
+        room = await room.save();
+
+        if (player.points >= room.maxRound) {
+            // game over and this is winner
+            io.to(roomId).emit("gameOver", { player });
+        } else {
+            // game remaining and increase the point of this player
+            io.to(roomId).emit("pointUpdate", { player });
+        }
+    });
 });
 
 mongoose.connect(database).then(() => { console.log("connection succesfull") });

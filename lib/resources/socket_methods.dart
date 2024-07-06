@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:socketex/comman/snack_bar.dart';
+import 'package:socketex/provider/board_elements.dart';
 import 'package:socketex/provider/room_provider.dart';
+import 'package:socketex/resources/game_methods.dart';
 import 'package:socketex/resources/socket_client.dart';
 import 'package:socketex/screens/game_screen.dart';
 
@@ -81,13 +83,14 @@ class SocketMethods {
     }
   }
 
-  void tappedListener(WidgetRef ref) {
+  void tappedListener(WidgetRef ref, BuildContext context) {
     _socketClient.on("tapped", (data) {
       print("event : tapped");
       ref
-          .read(roomProvider.notifier)
-          .updateElements(data['index'], data['choice']);
+          .read(boardProvider.notifier)
+          .updateBoardElement(data['index'], data['choice']);
       ref.read(roomProvider.notifier).updateRoomData(data['room']);
+      GameMethods().winCheck(ref, context, _socketClient);
     });
   }
 }

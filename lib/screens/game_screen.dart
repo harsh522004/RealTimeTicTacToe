@@ -37,10 +37,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     return Scaffold(
       body: roomData['isJoin']
           ? WaitingLobby(id: roomData['_id'])
-          : const SafeArea(
+          : SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [Scoreboard(), TictactoeBoard()],
+                children: [
+                  const Scoreboard(),
+                  const TictactoeBoard(),
+                  Text(
+                    "${roomData['turn']['nickname']}'s turn",
+                    style: const TextStyle(fontSize: 20),
+                  )
+                ],
               ),
             ),
     );
